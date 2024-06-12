@@ -1,0 +1,22 @@
+#include <bits/stdc++.h>
+using namespace std;
+int main()
+{
+ double p,q,e,msg;
+cout<<"Enter two prime numbers:"<<endl;
+cin>>p>>q;
+double n = p * q;
+double phi = (p - 1) * (q -1);
+cout<<"Enter e such that it is less than and not a factor of "<<phi<<":";
+cin>>e;
+cout<<"Enter the Message data (in int):"<<endl;
+cin>>msg;
+ int k = 2;
+ double d = (1 + (k * phi)) / e;
+ double c = pow(msg, e);
+ c = fmod(c, n);
+cout<<"Encrypted data:"<<c<<endl;
+ double m = pow(c, d);
+ m = fmod(m, n);
+cout<<"Decrypted data:"<<m;
+}

@@ -1,0 +1,45 @@
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+import java.security.spec.KeySpec;
+import java.util.Base64;
+
+public class DESExample {
+
+    public static void main(String[] args) throws Exception {
+        // Original message
+        String originalMessage = "Hello bro";
+        System.out.println("Original Message: " + originalMessage);
+
+        // Secret key (must be 8 bytes long for DES)
+        String key = "12345678"; // 8 characters
+        System.out.println("Key: " + key);
+
+        // Encrypt the message
+        byte[] encryptedMessage = encrypt(originalMessage, key);
+        String encryptedMessageBase64 = Base64.getEncoder().encodeToString(encryptedMessage);
+        System.out.println("Encrypted Message: " + encryptedMessageBase64);
+
+        // Decrypt the message
+        String decryptedMessage = decrypt(encryptedMessage, key);
+        System.out.println("Decrypted Message: " + decryptedMessage);
+    }
+
+    public static byte[] encrypt(String message, String key) throws Exception {
+        Cipher cipher = Cipher.getInstance("DES");
+        KeySpec keySpec = new DESKeySpec(key.getBytes());
+        SecretKey secretKey = SecretKeyFactory.getInstance("DES").generateSecret(keySpec);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        return cipher.doFinal(message.getBytes());
+    }
+
+    public static String decrypt(byte[] encryptedMessage, String key) throws Exception {
+        Cipher cipher = Cipher.getInstance("DES");
+        KeySpec keySpec = new DESKeySpec(key.getBytes());
+        SecretKey secretKey = SecretKeyFactory.getInstance("DES").generateSecret(keySpec);
+        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+        byte[] decrypted = cipher.doFinal(encryptedMessage);
+        return new String(decrypted);
+    }
+}

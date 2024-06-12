@@ -1,0 +1,64 @@
+#include<iostream>
+#include<math.h>
+using namespace std;
+float en[2][1]={0},de[2][1]={0},a[2][2],b[2][2],msg[2][1],m[2][2];
+void getkey()
+{
+    int i,j;
+    char mes[3];
+    cout<<"enter key matrix"<<endl;
+    for(i=0;i<2;i++)
+    {
+        for(j=0;j<2;j++)
+        {
+            cin>>a[i][j];
+            m[i][j]=a[i][j];
+        }
+       
+    }
+    cout<<"enter string"<<endl;
+    cin>>mes;
+    for(i=0;i<2;i++)
+    msg[i][0]=mes[i]-65;
+}
+void enc()
+{
+    int i,j,k;
+    for(i=0;i<2;i++)
+    for(j=0;j<1;j++)
+    for(k=0;k<2;k++)
+    en[i][j]=en[i][j]+a[i][k]*msg[k][j];
+    cout<<endl;
+    for(i=0;i<2;i++)
+    cout<<(char)(((int)en[i][0]%26)+65);
+}
+
+void dec()
+{
+    int i,j,k;
+    float det=m[0][0]*m[1][1]-m[0][1]*m[1][0];
+    float inv[2][2];
+    inv[0][0]=m[1][1]/det;
+    inv[1][1]=m[0][0]/det;
+    inv[0][1]=-m[0][1]/det;
+    inv[1][0]=-m[1][0]/det;
+    for(i=0;i<2;i++)
+    {
+        for(j=0;j<1;j++)
+        {
+            for(k=0;k<2;k++)
+            de[i][j]=de[i][j]+ inv[i][k]*en[k][j];
+        }
+    }
+    cout<<endl;
+    cout<<"decrypt"<<endl;
+    for(i=0;i<2;i++)
+    cout<<(char)(((int)de[i][0]%26)+65);
+    
+}
+int main() {
+    getkey();
+    enc();
+    dec();
+    return 0;
+}
